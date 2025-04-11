@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import NotFound from "../pages/Not_found";
 
 const Page = () => {
   const navigate = useNavigate();
@@ -18,6 +19,16 @@ const Page = () => {
   }, [location, navigate]);
 
   const match = location.pathname.match(/grid=(\d+)&grname=(.+)/);
+
+  // Validate expected pattern: grid=123456&grname=something
+  const { id } = useParams();
+  const isValid = id?.match(/^grid=\d{6}&grname=.+$/);
+
+  if (isValid) {
+    return <NotFound />;
+  }
+  //--------------------------------------------------------
+
   const grid = match?.[1];
   const grname = match?.[2];
 
