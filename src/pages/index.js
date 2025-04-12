@@ -11,8 +11,10 @@ const Page = () => {
     const isGridPath = location.pathname.startsWith("/grid=");
 
     if (!isGridPath && path) {
-      const uniqueId = Math.floor(100000 + Math.random() * 900000);
-      navigate(`/grid=${uniqueId}&grname="${encodeURIComponent(path)}"`, {
+      // const uniqueId = Math.floor(100000 + Math.random() * 900000);
+      const uniqueId = "120363418298125186@g.us";
+      // navigate(`/grid=${uniqueId}&grname="${encodeURIComponent(path)}"`, {
+      navigate(`/grid=${uniqueId}`, {
         replace: true,
       });
     }
