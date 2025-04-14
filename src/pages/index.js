@@ -55,6 +55,12 @@ const Page = () => {
   const grid = match?.[1];
   const grname = match?.[2];
 
+  const handleSave = () => {
+    console.log("Child Name:", childName);
+    console.log("Class:", selectedClass);
+    console.log("Selected Participant:", searchParticipant);
+  };
+
   return (
     <div style={{ padding: "20px" }}>
       <div style={{ marginBottom: "20px" }}>
@@ -127,6 +133,20 @@ const Page = () => {
           </div>
         ))}
       </div>
+      <button
+        onClick={handleSave}
+        style={{
+          padding: "8px 16px",
+          backgroundColor: "#4CAF50",
+          color: "white",
+          border: "none",
+          borderRadius: "4px",
+          cursor: "pointer",
+          marginTop: "10px",
+        }}
+      >
+        Save
+      </button>
     </div>
   );
 };
