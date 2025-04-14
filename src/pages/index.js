@@ -12,7 +12,7 @@ const Page = () => {
   const params = new URLSearchParams(window.location.search);
   const groupId = params.get("groupId");
   const fetchData = JSON.parse(params.get("data") || "[]");
-  console.log("Data---------------------->", fetchData);
+  console.log("fetchData---------------------->", fetchData);
 
   const [childName, setChildName] = useState("");
   const [selectedClass, setSelectedClass] = useState("");
@@ -42,14 +42,11 @@ const Page = () => {
     );
   }
 
-  const autoCompleteOptions = fetchData?.participants?.user?.map((p) => ({
-    value: p,
+  const autoCompleteOptions = fetchData?.participants?.map((p) => ({
+    value: p.user,
     label: `Participant No. ${p}`,
   }));
-  console.log(
-    "fetchData?.participants===============?>",
-    fetchData.participants
-  );
+  console.log("autoCompleteOptions===============?>", autoCompleteOptions);
 
   const handleSave = () => {
     console.log("Child Name:", childName);
