@@ -12,6 +12,7 @@ const Page = () => {
   const params = new URLSearchParams(window.location.search);
   const groupId = params.get("groupId");
   const participants = JSON.parse(params.get("participants") || "[]");
+  console.log("Participants---------------------->", params);
 
   console.log("participants----------->", participants);
 
@@ -21,7 +22,7 @@ const Page = () => {
 
   useEffect(() => {
     const path = location.pathname.replace("/", "");
-    const isGridPath = location.pathname.startsWith("/grid=");
+    const isGridPath = location.pathname.startsWith("/data=");
 
     if (!isGridPath && path) {
       const uniqueId = "120363418298125186@g.us";
@@ -48,59 +49,128 @@ const Page = () => {
     label: `Participant No. ${p}`,
   }));
 
+  const handleSave = () => {
+    console.log("Child Name:", childName);
+    console.log("Class:", selectedClass);
+    console.log("Selected Participant:", searchParticipant);
+  };
+
   return (
-    <div style={{ padding: "20px" }}>
-      <div style={{ marginBottom: "20px" }}>
-        <label>Enter your child name:</label>
-        <Input
-          value={childName}
-          onChange={(e) => setChildName(e.target.value)}
-          placeholder="Child Name"
-          style={{ width: "300px", marginLeft: "10px" }}
-        />
-      </div>
+    <div style={styles.wrapper}>
+      <div style={styles.card}>
+        <h2 style={styles.title}>Child Registration</h2>
 
-      <div style={{ marginBottom: "20px" }}>
-        <label>Select your class: </label>
-        <Select
-          value={selectedClass}
-          onChange={(value) => setSelectedClass(value)}
-          style={{ width: 200, marginLeft: "10px" }}
-          placeholder="-- Select Class --"
-        >
-          {[...Array(10)].map((_, i) => (
-            <Option key={i + 1} value={i + 1}>
-              Class {i + 1}
-            </Option>
-          ))}
-        </Select>
-      </div>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Enter your child name:</label>
+          <Input
+            value={childName}
+            onChange={(e) => setChildName(e.target.value)}
+            placeholder="Child Name"
+            style={styles.input}
+          />
+        </div>
 
-      <div style={{ marginBottom: "20px" }}>
-        <label>Search Participant:</label>
-        <AutoComplete
-          options={autoCompleteOptions}
-          style={{ width: 300, marginLeft: "10px" }}
-          placeholder="Type participant number..."
-          value={searchParticipant}
-          onChange={setSearchParticipant}
-          filterOption={(inputValue, option) =>
-            option?.value?.toLowerCase().includes(inputValue.toLowerCase())
-          }
-        />
-      </div>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Select your class:</label>
+          <Select
+            value={selectedClass}
+            onChange={(value) => setSelectedClass(value)}
+            style={styles.input}
+            placeholder="-- Select Class --"
+          >
+            {[...Array(10)].map((_, i) => (
+              <Option key={i + 1} value={i + 1}>
+                Class {i + 1}
+              </Option>
+            ))}
+          </Select>
+        </div>
 
-      <div>
-        {participants.map((participant, index) => (
-          <div key={index}>
-            <h4>
-              {index + 1}. Participant No. {participant}
-            </h4>
-          </div>
-        ))}
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Search Participant:</label>
+          <AutoComplete
+            options={autoCompleteOptions}
+            style={styles.input}
+            placeholder="Type participant number..."
+            value={searchParticipant}
+            onChange={setSearchParticipant}
+            filterOption={(inputValue, option) =>
+              option?.value?.toLowerCase().includes(inputValue.toLowerCase())
+            }
+          />
+        </div>
+
+        <button onClick={handleSave} style={styles.button}>
+          Save
+        </button>
       </div>
     </div>
   );
 };
+
+const styles = {
+  wrapper: {
+    display: "flex",
+    justifyContent: "center",
+    padding: "20px",
+    minHeight: "100vh",
+    backgroundColor: "green",
+  },
+  card: {
+    width: "100%",
+    maxWidth: "500px",
+    backgroundColor: "lightgreen",
+    padding: "24px",
+    borderRadius: "10px",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+  },
+  title: {
+    textAlign: "center",
+    marginBottom: "24px",
+    fontSize: "22px",
+    color: "#333",
+  },
+  formGroup: {
+    marginBottom: "20px",
+    display: "flex",
+    flexDirection: "column",
+  },
+  label: {
+    marginBottom: "6px",
+    fontWeight: "500",
+    fontSize: "14px",
+    color: "#555",
+  },
+  input: {
+    width: "100%",
+    height: "40px",
+    fontSize: "14px",
+  },
+  button: {
+    width: "100%",
+    padding: "10px",
+    backgroundColor: "#4CAF50",
+    color: "white",
+    fontSize: "16px",
+    fontWeight: "bold",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer",
+    transition: "background 0.3s ease",
+  },
+};
+
+// Responsive styles using media query
+if (typeof window !== "undefined") {
+  const style = document.createElement("style");
+  style.innerHTML = `
+    @media (max-width: 600px) {
+      .ant-select, .ant-input, .ant-select-selector {
+        font-size: 14px !important;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+}
 
 export default Page;
