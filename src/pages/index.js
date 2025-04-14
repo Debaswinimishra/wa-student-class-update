@@ -20,7 +20,9 @@ const Page = () => {
     const isGridPath = location.pathname.startsWith("/grid=");
 
     if (!isGridPath && path) {
+      // const uniqueId = Math.floor(100000 + Math.random() * 900000);
       const uniqueId = "120363418298125186@g.us";
+      // navigate(/grid=${uniqueId}&grname="${encodeURIComponent(path)}", {
       navigate(`/grid=${uniqueId}`, {
         replace: true,
       });
@@ -41,7 +43,7 @@ const Page = () => {
 
   useEffect(() => {
     if (searchParticipant.trim() === "") {
-      setFilteredParticipants([]);
+      // setFilteredParticipants([]);
     } else {
       const filtered = participants.filter((p) =>
         p.toLowerCase().includes(searchParticipant.toLowerCase())
@@ -82,7 +84,7 @@ const Page = () => {
         </select>
       </div>
 
-      <div style={{ marginBottom: "20px" }}>
+      {/* <div style={{ marginBottom: "20px" }}>
         <label>Search participant: </label>
         <input
           type="text"
@@ -113,7 +115,7 @@ const Page = () => {
             ))}
           </ul>
         )}
-      </div>
+      </div> */}
 
       <div>
         <h2>All Participants</h2>
