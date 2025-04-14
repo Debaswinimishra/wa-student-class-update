@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import NotFound from "../pages/Not_found";
 import { AutoComplete, Input, Select } from "antd";
+import backgroundImg from "../assests/peakpx.jpg";
+import axios from "axios";
 
 const { Option } = Select;
 
@@ -59,7 +61,7 @@ const Page = () => {
   //   }, 2000);
   // };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     // console.log("Child Name:", childName);
     // console.log("Class:", selectedClass);
     // console.log("Selected Participant:", searchParticipant);
@@ -69,8 +71,48 @@ const Page = () => {
     //   window.location.href = "https://wa.me";
     // }, 500);
 
-    window.location.href =
-      "intent://send/#Intent;package=com.whatsapp;scheme=whatsapp;end;";
+    try {
+      const body = {
+        anganwadi: fetchData.anganwadi,
+        block: fetchData.block,
+        cluster: fetchData.cluster,
+        district: fetchData.district,
+        groupCategory: fetchData.groupCategory,
+        groupId: fetchData.groupId,
+        groupName: fetchData.groupName,
+        participants: fetchData.participants,
+        project: fetchData.project,
+        school: fetchData.school,
+        sector: fetchData.sector,
+        studentId: new Date().getTime(),
+        studentName: childName,
+        class: selectedClass,
+        phoneNumber: searchParticipant,
+        academicType: fetchData.groupCategory,
+        parentsName: "",
+      };
+
+      console.log("body sent in API-------------->", body);
+
+      const response = await axios.post(
+        "https://tatvagyan.in/tz/saveWaValidatedClass",
+        body
+      );
+      console.log("response------------------->", response);
+
+      if (
+        response.status === 200 ||
+        response.payload.status === 200 ||
+        response.data.statusCode === 200
+      ) {
+        window.location.href =
+          "intent://send/#Intent;package=com.whatsapp;scheme=whatsapp;end;";
+
+        alert("");
+      }
+    } catch (error) {
+      console.error("error is-------->", error);
+    }
   };
 
   return (
@@ -145,7 +187,7 @@ const Page = () => {
             placeholder="Type participant number..."
             value={searchParticipant}
             onChange={(e) => searchParticipant(e)}
-            onSearch={(val) => setSearchParticipant(val)} // to enable search filtering
+            onSearch={(val) => setSearchParticipant(val)}
             filterOption={(inputValue, option) =>
               option?.label?.toLowerCase().includes(inputValue.toLowerCase())
             }
@@ -165,16 +207,17 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     padding: "20px",
-    minHeight: "100vh",
-    backgroundColor: "green",
+    minHeight: "90vh",
+    backgroundImage: `url(${backgroundImg})`,
   },
   card: {
     width: "100%",
     maxWidth: "500px",
-    backgroundColor: "lightgreen",
     padding: "24px",
     borderRadius: "10px",
     boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+    maxHeight: "84%",
+    backgroundColor: "rgba(148, 226, 124, 0.9)",
   },
   title: {
     textAlign: "center",
@@ -197,16 +240,18 @@ const styles = {
     width: "100%",
     height: "40px",
     fontSize: "14px",
+    border: "solid black 0.5px",
+    color: "",
   },
   button: {
-    width: "100%",
+    width: "40%",
     padding: "10px",
-    backgroundColor: "#4CAF50",
+    backgroundColor: "blue",
     color: "white",
     fontSize: "16px",
     fontWeight: "bold",
     border: "none",
-    borderRadius: "6px",
+    borderRadius: "10px",
     cursor: "pointer",
     transition: "background 0.3s ease",
   },
