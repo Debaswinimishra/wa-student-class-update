@@ -51,16 +51,6 @@ const Page = () => {
 
   console.log("autoCompleteOptions===============?>", autoCompleteOptions);
 
-  // const handleSave = () => {
-  //   // Try to open WhatsApp directly
-  //   window.location.href = "whatsapp://send";
-
-  //   // Fallback to wa.me link after a delay
-  //   setTimeout(() => {
-  //     window.location.href = "https://wa.me/";
-  //   }, 2000);
-  // };
-
   const handleSave = async () => {
     // console.log("Child Name:", childName);
     // console.log("Class:", selectedClass);
@@ -211,7 +201,7 @@ const Page = () => {
             style={styles.input}
             placeholder="Type participant number..."
             value={searchParticipant}
-            onChange={(e) => searchParticipant(e)}
+            onChange={(e) => setSearchParticipant(e)}
             onSearch={(val) => setSearchParticipant(val)}
             filterOption={(inputValue, option) =>
               option?.label?.toLowerCase().includes(inputValue.toLowerCase())
