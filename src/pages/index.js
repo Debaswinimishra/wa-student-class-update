@@ -42,10 +42,11 @@ const Page = () => {
     );
   }
 
-  const autoCompleteOptions = fetchData?.participants?.map((p) => ({
-    value: p.user,
-    label: `Participant No. ${p}`,
+  const autoCompleteOptions = (fetchData?.participants || [])?.map((p) => ({
+    value: String(p.user),
+    label: `Participant No. ${p.user}`,
   }));
+
   console.log("autoCompleteOptions===============?>", autoCompleteOptions);
 
   const handleSave = () => {
@@ -126,8 +127,7 @@ const Page = () => {
             placeholder="Type participant number..."
             value={searchParticipant}
             onChange={setSearchParticipant}
-            onSearch={() => {}}
-            open={true} // <- always open (optional, not always recommended)
+            onSearch={(val) => setSearchParticipant(val)} // to enable search filtering
             filterOption={(inputValue, option) =>
               option?.label?.toLowerCase().includes(inputValue.toLowerCase())
             }
