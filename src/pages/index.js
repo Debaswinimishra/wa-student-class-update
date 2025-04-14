@@ -131,7 +131,7 @@ const Page = () => {
           <label style={styles.label}>Group Name:</label>
           <Input value={fetchData.groupName} style={styles.input} disabled />
         </div> */}
-
+        {/* 
         <div style={styles.formGroup}>
           <label style={styles.label}>ନିଜ ନମ୍ବର ଚୟନ କରନ୍ତୁ :</label>
           <AutoComplete
@@ -144,7 +144,7 @@ const Page = () => {
               option?.label?.toLowerCase().includes(inputValue.toLowerCase())
             }
           />
-        </div>
+        </div> */}
 
         {children.map((child, index) => (
           <div key={index} style={styles.childCard}>
