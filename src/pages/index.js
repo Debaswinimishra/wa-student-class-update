@@ -53,7 +53,12 @@ const Page = () => {
     console.log("Child Name:", childName);
     console.log("Class:", selectedClass);
     console.log("Selected Participant:", searchParticipant);
+    // window.location.href = "whatsapp://";
     window.location.href = "whatsapp://";
+
+    setTimeout(function () {
+      window.location.href = "https://wa.me";
+    }, 500);
   };
 
   return (
