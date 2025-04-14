@@ -45,8 +45,8 @@ const Page = () => {
   }
 
   const autoCompleteOptions = (fetchData?.participants || [])?.map((p) => ({
-    value: String(p.user),
-    label: String(p.user),
+    value: String(p),
+    label: String(p),
   }));
 
   console.log("autoCompleteOptions===============?>", autoCompleteOptions);
@@ -55,7 +55,7 @@ const Page = () => {
     console.log("Child Name:", childName);
     console.log("Class:", selectedClass);
     console.log("Selected Participant:", searchParticipant);
-    window.location.href = "https://www.whatsapp.com";
+    window.location.href = "whatsapp://";
   };
 
   return (
