@@ -111,32 +111,32 @@ const Page = () => {
   return (
     <div style={styles.wrapper}>
       <div style={styles.card}>
-        <h2 style={styles.title}>Child Registration</h2>
+        <h2 style={styles.title}>ଶ୍ରେଣୀ ପଞ୍ଜୀକରଣ</h2>
 
-        <div style={styles.formGroup}>
+        {/* <div style={styles.formGroup}>
           <label style={styles.label}>District Name:</label>
           <Input value={fetchData.district} style={styles.input} disabled />
-        </div>
+        </div> */}
 
-        <div style={styles.formGroup}>
+        {/* <div style={styles.formGroup}>
           <label style={styles.label}>Category:</label>
           <Input
             value={fetchData.groupCategory}
             style={styles.input}
             disabled
           />
-        </div>
+        </div> */}
 
-        <div style={styles.formGroup}>
+        {/* <div style={styles.formGroup}>
           <label style={styles.label}>Group Name:</label>
           <Input value={fetchData.groupName} style={styles.input} disabled />
-        </div>
+        </div> */}
 
         <div style={styles.formGroup}>
-          <label style={styles.label}>Search Participant:</label>
+          <label style={styles.label}>ନିଜ ନମ୍ବର ଚୟନ କରନ୍ତୁ :</label>
           <AutoComplete
             options={autoCompleteOptions}
-            placeholder="Type participant number..."
+            placeholder="ନିଜ ନମ୍ବର ଚୟନ କରନ୍ତୁ..."
             style={styles.input}
             value={searchedParticipant}
             onChange={participantOnChange}
@@ -148,7 +148,7 @@ const Page = () => {
 
         {children.map((child, index) => (
           <div key={index} style={styles.childCard}>
-            <h3 style={styles.childTitle}>Child {index + 1}</h3>
+            {/* <h3 style={styles.childTitle}>Child {index + 1}</h3>
             <div style={{ marginBottom: 10 }}>
               <label style={styles.label}>Child Name:</label>
               <Input
@@ -159,11 +159,11 @@ const Page = () => {
                 }
                 style={styles.input}
               />
-            </div>
+            </div> */}
             <div>
-              <label style={styles.label}>Select Class:</label>
+              <label style={styles.label}>ପିଲାର ଶ୍ରେଣୀ ଚୟନ କରନ୍ତୁ:</label>
               <Select
-                placeholder="-- Select Class --"
+                placeholder="-- ପିଲାର ଶ୍ରେଣୀ ଚୟନ କରନ୍ତୁ --"
                 value={child.selectedClass}
                 style={styles.input}
                 onChange={(value) =>
@@ -187,7 +187,7 @@ const Page = () => {
               </Select>
             </div>
 
-            <div style={{ marginTop: 10 }}>
+            {/* <div style={{ marginTop: 10 }}>
               <label style={styles.label}>Select Gender:</label>
               <Select
                 placeholder="-- Select Gender --"
@@ -198,12 +198,12 @@ const Page = () => {
                 <Option value="male">Boy</Option>
                 <Option value="female">Girl</Option>
               </Select>
-            </div>
+            </div> */}
           </div>
         ))}
 
         <button onClick={addChild} style={styles.addButton}>
-          <PlusOutlined /> Add Another Child
+          <PlusOutlined /> ଆଉ ଏକ ପିଲାର ପଞ୍ଜୀକରଣ କରନ୍ତୁ
         </button>
 
         <button onClick={handleSave} style={styles.button}>
