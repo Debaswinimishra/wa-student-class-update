@@ -11,8 +11,8 @@ const Page = () => {
 
   const params = new URLSearchParams(window.location.search);
   const groupId = params.get("groupId");
-  const participants = JSON.parse(params.get("participants") || "[]");
-  console.log("Participants---------------------->", params);
+  const participants = JSON.parse(params.get("data") || "[]");
+  console.log("Data---------------------->", participants);
 
   const [childName, setChildName] = useState("");
   const [selectedClass, setSelectedClass] = useState("");
