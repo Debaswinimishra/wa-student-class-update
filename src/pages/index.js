@@ -44,7 +44,7 @@ const Page = () => {
 
   const autoCompleteOptions = (fetchData?.participants || [])?.map((p) => ({
     value: String(p.user),
-    label: `Participant No. ${p.user}`,
+    label: String(p.user),
   }));
 
   console.log("autoCompleteOptions===============?>", autoCompleteOptions);
@@ -126,7 +126,7 @@ const Page = () => {
             style={styles.input}
             placeholder="Type participant number..."
             value={searchParticipant}
-            onChange={setSearchParticipant}
+            onChange={(e) => searchParticipant(e)}
             onSearch={(val) => setSearchParticipant(val)} // to enable search filtering
             filterOption={(inputValue, option) =>
               option?.label?.toLowerCase().includes(inputValue.toLowerCase())
