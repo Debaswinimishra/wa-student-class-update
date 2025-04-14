@@ -50,15 +50,25 @@ const Page = () => {
   console.log("autoCompleteOptions===============?>", autoCompleteOptions);
 
   const handleSave = () => {
-    console.log("Child Name:", childName);
-    console.log("Class:", selectedClass);
-    console.log("Selected Participant:", searchParticipant);
-    // window.location.href = "whatsapp://";
+    // Try to open WhatsApp directly
+    window.location.href = "whatsapp://send";
 
-    setTimeout(function () {
-      window.location.href = "https://wa.me";
-    }, 500);
+    // Fallback to wa.me link after a delay
+    setTimeout(() => {
+      window.location.href = "https://wa.me/";
+    }, 2000);
   };
+
+  // const handleSave = () => {
+  //   console.log("Child Name:", childName);
+  //   console.log("Class:", selectedClass);
+  //   console.log("Selected Participant:", searchParticipant);
+  //   window.location.href = "whatsapp://";
+
+  //   setTimeout(function () {
+  //     window.location.href = "https://wa.me";
+  //   }, 500);
+  // };
 
   return (
     <div style={styles.wrapper}>
