@@ -27,7 +27,12 @@ const Page = () => {
   const isValid = id?.match(/^grid=\d{6}&grname=.+$/);
 
   if (isValid) {
-    return <div>hye</div>;
+    return (
+      <div>
+        {" "}
+        <NotFound />
+      </div>
+    );
   }
   //--------------------------------------------------------
 
@@ -42,9 +47,7 @@ const Page = () => {
           <h3>You are viewing: {decodeURIComponent(grname)}</h3>
         </>
       ) : ( */}
-      <h3>
-        <NotFound />
-      </h3>
+      <h3>hye</h3>
       {/* )} */}
     </div>
   );
