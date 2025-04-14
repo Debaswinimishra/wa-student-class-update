@@ -54,7 +54,7 @@ const Page = () => {
         return (
           <div key={index}>
             <h1>
-              {index}. Participant {index + 1}
+              {index}. Participant No. {participant}
             </h1>
           </div>
         );
