@@ -208,7 +208,8 @@ const styles = {
     justifyContent: "center",
     padding: "20px",
     minHeight: "90vh",
-    backgroundImage: `url(${backgroundImg})`,
+    // backgroundImage: `url(${backgroundImg})`,
+    backgroundColor: "rgb(152,251,152)",
   },
   card: {
     width: "100%",
@@ -217,7 +218,7 @@ const styles = {
     borderRadius: "10px",
     boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
     maxHeight: "84%",
-    backgroundColor: "rgba(148, 226, 124, 0.9)",
+    backgroundImage: `url(${backgroundImg})`,
   },
   title: {
     textAlign: "center",
@@ -246,7 +247,7 @@ const styles = {
   button: {
     width: "40%",
     padding: "10px",
-    backgroundColor: "blue",
+    backgroundColor: " rgb(60,179,113)",
     color: "white",
     fontSize: "16px",
     fontWeight: "bold",
