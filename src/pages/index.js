@@ -121,7 +121,7 @@ const Page = () => {
         <div style={styles.formGroup}>
           <label style={styles.label}>Search Participant:</label>
           <AutoComplete
-            options={autoCompleteOptions}
+            options={autoCompleteOptions.value}
             style={styles.input}
             placeholder="Type participant number..."
             value={searchParticipant}
