@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import NotFound from "../pages/Not_found";
 import { AutoComplete, Input, Select } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import backgroundImg from "../assests/peakpx.jpg";
 import axios from "axios";
 
@@ -10,103 +11,96 @@ const { Option } = Select;
 const Page = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
   const params = new URLSearchParams(window.location.search);
-  const groupId = params.get("groupId");
   const fetchData = JSON.parse(params.get("data") || "[]");
-  console.log("fetchData---------------------->", fetchData);
 
-  const [childName, setChildName] = useState("");
-  const [selectedClass, setSelectedClass] = useState("");
-  const [searchParticipant, setSearchParticipant] = useState("");
+  const [children, setChildren] = useState([
+    { childName: "", selectedClass: "" },
+  ]);
+  const [searchedParticipant, setSearchedParticipant] = useState("");
 
-  useEffect(() => {
-    const path = location.pathname.replace("/", "");
-    const isGridPath = location.pathname.startsWith("/data=");
-
-    if (!isGridPath && path) {
-      const uniqueId = "120363418298125186@g.us";
-      navigate(`/grid=${uniqueId}`, {
-        replace: true,
-      });
-    }
-  }, [location, navigate]);
-
-  const match = location.pathname.match(/grid=(\d+)&grname=(.+)/);
-  const { id } = useParams();
-  const isValid = id?.match(/^grid=\d{6}&grname=.+$/);
-
-  if (isValid) {
-    return (
-      <div>
-        <NotFound />
-      </div>
-    );
-  }
-
-  const autoCompleteOptions = (fetchData?.participants || [])?.map((p) => ({
+  const autoCompleteOptions = (fetchData?.participants || []).map((p) => ({
     value: String(p),
     label: String(p),
   }));
 
-  console.log("autoCompleteOptions===============?>", autoCompleteOptions);
+  const participantOnChange = (value) => {
+    setSearchedParticipant(value);
+  };
+
+  useEffect(() => {
+    const path = location.pathname.replace("/", "");
+    const isGridPath = location.pathname.startsWith("/data=");
+    if (!isGridPath && path) {
+      const uniqueId = "120363418298125186@g.us";
+      navigate(`/grid=${uniqueId}`, { replace: true });
+    }
+  }, [location, navigate]);
+
+  const { id } = useParams();
+  const isValid = id?.match(/^grid=\d{6}&grname=.+$/);
+  if (isValid) return <NotFound />;
+
+  const handleChildChange = (index, field, value) => {
+    const updated = [...children];
+    updated[index][field] = value;
+    setChildren(updated);
+  };
+
+  const addChild = () => {
+    setChildren([...children, { childName: "", selectedClass: "" }]);
+  };
 
   const handleSave = async () => {
-    // console.log("Child Name:", childName);
-    // console.log("Class:", selectedClass);
-    // console.log("Selected Participant:", searchParticipant);
-    // window.location.href = "whatsapp://";
+    if (!searchedParticipant) {
+      alert("Please select a participant before saving.");
+      return;
+    }
 
-    // setTimeout(function () {
-    //   window.location.href = "https://wa.me";
-    // }, 500);
-
-    if (!selectedClass || !searchParticipant) {
-      alert("Please select a class and participant number before saving.");
+    const incompleteChild = children.find(
+      (child) => !child.childName || !child.selectedClass
+    );
+    if (incompleteChild) {
+      alert("Please fill all child names and classes before saving.");
       return;
     }
 
     try {
-      const body = {
-        anganwadi: fetchData.anganwadi,
-        block: fetchData.block,
-        cluster: fetchData.cluster,
-        district: fetchData.district,
-        groupCategory: fetchData.groupCategory,
-        groupId: fetchData.groupId,
-        groupName: fetchData.groupName,
-        participants: fetchData.participants,
-        project: fetchData.project,
-        school: fetchData.school,
-        sector: fetchData.sector,
-        studentId: new Date().getTime(),
-        studentName: childName,
-        class: selectedClass,
-        phoneNumber: searchParticipant,
-        academicType: fetchData.groupCategory,
-        parentsName: "",
-      };
+      const responses = await Promise.all(
+        children.map((child) => {
+          const body = {
+            anganwadi: fetchData.anganwadi,
+            block: fetchData.block,
+            cluster: fetchData.cluster,
+            district: fetchData.district,
+            groupCategory: fetchData.groupCategory,
+            groupId: fetchData.groupId,
+            groupName: fetchData.groupName,
+            participants: fetchData.participants,
+            project: fetchData.project,
+            school: fetchData.school,
+            sector: fetchData.sector,
+            studentId: new Date().getTime() + Math.floor(Math.random() * 1000),
+            studentName: child.childName,
+            class: child.selectedClass,
+            phoneNumber: searchedParticipant,
+            academicType: fetchData.groupCategory,
+            parentsName: "",
+          };
 
-      console.log("body sent in API-------------->", body);
-
-      const response = await axios.post(
-        "https://tatvagyan.in/tz/saveWaValidatedClass",
-        body
+          return axios.post(
+            "https://tatvagyan.in/tz/saveWaValidatedClass",
+            body
+          );
+        })
       );
-      console.log("response------------------->", response);
 
-      if (
-        response.status === 200 ||
-        response.payload.status === 200 ||
-        response.data.statusCode === 200
-      ) {
-        window.location.href =
-          "intent://send/#Intent;package=com.whatsapp;scheme=whatsapp;end;";
-
-        alert("");
-      }
+      console.log("Saved Responses:", responses);
+      window.location.href =
+        "intent://send/#Intent;package=com.whatsapp;scheme=whatsapp;end;";
     } catch (error) {
-      console.error("error is-------->", error);
+      console.error("Save Error:", error);
+      alert("Something went wrong while saving.");
     }
   };
 
@@ -116,98 +110,84 @@ const Page = () => {
         <h2 style={styles.title}>Child Registration</h2>
 
         <div style={styles.formGroup}>
-          <label style={styles.label}>District name:</label>
-          <Input
-            value={fetchData.district}
-            // onChange={(e) => setChildName(e.target.value)}
-            // placeholder="Child Name"
-            style={styles.input}
-            disabled={true}
-          />
+          <label style={styles.label}>District Name:</label>
+          <Input value={fetchData.district} style={styles.input} disabled />
         </div>
 
         <div style={styles.formGroup}>
           <label style={styles.label}>Category:</label>
           <Input
             value={fetchData.groupCategory}
-            // onChange={(e) => setChildName(e.target.value)}
-            // placeholder="Child Name"
             style={styles.input}
-            disabled={true}
+            disabled
           />
         </div>
 
         <div style={styles.formGroup}>
-          <label style={styles.label}>GroupName:</label>
-          <Input
-            value={fetchData.groupName}
-            // onChange={(e) => setChildName(e.target.value)}
-            // placeholder="Child Name"
-            style={styles.input}
-            disabled={true}
-          />
+          <label style={styles.label}>Group Name:</label>
+          <Input value={fetchData.groupName} style={styles.input} disabled />
         </div>
-
-        <div style={styles.formGroup}>
-          <label style={styles.label}>Enter your child name:</label>
-          <Input
-            value={childName}
-            onChange={(e) => setChildName(e.target.value)}
-            placeholder="Child Name"
-            style={styles.input}
-          />
-        </div>
-
-        {/* <div style={styles.formGroup}>
-          <label style={styles.label}>Select your class:</label>
-          <Select
-            value={selectedClass}
-            onChange={(value) => setSelectedClass(value)}
-            style={styles.input}
-            placeholder="-- Select Class --"
-          >
-            {[...Array(10)].map((_, i) => (
-              <Option key={i + 1} value={i + 1}>
-                Class {i + 1}
-              </Option>
-            ))}
-          </Select>
-        </div> */}
-
-        <Select
-          value={selectedClass}
-          onChange={(value) => setSelectedClass(value)}
-          style={styles.input}
-          placeholder="-- Select Class --"
-        >
-          {Array.from(
-            {
-              length: fetchData?.groupCategory?.toLowerCase().includes("school")
-                ? 10
-                : 3,
-            },
-            (_, i) => (
-              <Option key={i + 1} value={i + 1}>
-                Class {i + 1}
-              </Option>
-            )
-          )}
-        </Select>
 
         <div style={styles.formGroup}>
           <label style={styles.label}>Search Participant:</label>
           <AutoComplete
             options={autoCompleteOptions}
-            style={styles.input}
             placeholder="Type participant number..."
-            value={searchParticipant}
-            onChange={(e) => setSearchParticipant(e.target.value)}
-            onSearch={(val) => setSearchParticipant(val.target.value)}
+            style={styles.input}
+            value={searchedParticipant}
+            onChange={participantOnChange}
             filterOption={(inputValue, option) =>
               option?.label?.toLowerCase().includes(inputValue.toLowerCase())
             }
           />
         </div>
+
+        {children.map((child, index) => (
+          <div key={index} style={styles.childCard}>
+            <h3 style={styles.childTitle}>Child {index + 1}</h3>
+            <div style={{ marginBottom: 10 }}>
+              <label style={styles.label}>Child Name:</label>
+              <Input
+                placeholder="Enter Child Name"
+                value={child.childName}
+                onChange={(e) =>
+                  handleChildChange(index, "childName", e.target.value)
+                }
+                style={styles.input}
+              />
+            </div>
+            <div>
+              <label style={styles.label}>Select Class:</label>
+              <Select
+                placeholder="-- Select Class --"
+                value={child.selectedClass}
+                style={styles.input}
+                onChange={(value) =>
+                  handleChildChange(index, "selectedClass", value)
+                }
+              >
+                {Array.from(
+                  {
+                    length: fetchData?.groupCategory
+                      ?.toLowerCase()
+                      .includes("school")
+                      ? 10
+                      : 3,
+                  },
+                  (_, i) => (
+                    <Option key={i + 1} value={i + 1}>
+                      Class {i + 1}
+                    </Option>
+                  )
+                )}
+              </Select>
+            </div>
+          </div>
+        ))}
+
+        <button onClick={addChild} style={styles.addButton}>
+          <PlusOutlined /> Add Another Child
+        </button>
 
         <button onClick={handleSave} style={styles.button}>
           Save
@@ -223,7 +203,6 @@ const styles = {
     justifyContent: "center",
     padding: "20px",
     minHeight: "90vh",
-    // backgroundImage: `url(${backgroundImg})`,
     backgroundColor: "rgb(152,251,152)",
   },
   card: {
@@ -232,7 +211,6 @@ const styles = {
     padding: "24px",
     borderRadius: "10px",
     boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-    maxHeight: "84%",
     backgroundImage: `url(${backgroundImg})`,
   },
   title: {
@@ -242,7 +220,6 @@ const styles = {
     color: "#333",
   },
   formGroup: {
-    marginBottom: "20px",
     display: "flex",
     flexDirection: "column",
   },
@@ -257,33 +234,45 @@ const styles = {
     height: "40px",
     fontSize: "14px",
     border: "solid black 1px",
-    color: "",
   },
   button: {
-    width: "40%",
+    width: "100%",
     padding: "10px",
-    backgroundColor: " rgb(60,179,113)",
+    marginTop: "16px",
+    backgroundColor: "rgb(60,179,113)",
     color: "white",
     fontSize: "16px",
     fontWeight: "bold",
     border: "none",
     borderRadius: "10px",
     cursor: "pointer",
-    transition: "background 0.3s ease",
+  },
+  addButton: {
+    width: "100%",
+    padding: "8px",
+    marginBottom: "16px",
+    backgroundColor: "#1890ff",
+    color: "white",
+    fontSize: "14px",
+    border: "none",
+    borderRadius: "8px",
+    cursor: "pointer",
+  },
+  childCard: {
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
+    borderRadius: "10px",
+    padding: "16px",
+    marginBottom: "20px",
+    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+    border: "1px solid #ccc",
+    marginTop: "12px",
+  },
+  childTitle: {
+    marginBottom: "12px",
+    fontSize: "16px",
+    fontWeight: "600",
+    color: "#333",
   },
 };
-
-// Responsive styles using media query
-if (typeof window !== "undefined") {
-  const style = document.createElement("style");
-  style.innerHTML = `
-    @media (max-width: 600px) {
-      .ant-select, .ant-input, .ant-select-selector {
-        font-size: 14px !important;
-      }
-    }
-  `;
-  document.head.appendChild(style);
-}
 
 export default Page;
