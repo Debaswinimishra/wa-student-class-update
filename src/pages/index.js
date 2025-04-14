@@ -14,8 +14,6 @@ const Page = () => {
   const fetchData = JSON.parse(params.get("data") || "[]");
   console.log("fetchData---------------------->", fetchData);
 
-  console.log("participants----------->", participants);
-
   const [childName, setChildName] = useState("");
   const [selectedClass, setSelectedClass] = useState("");
   const [searchParticipant, setSearchParticipant] = useState("");
