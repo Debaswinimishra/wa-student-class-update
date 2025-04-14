@@ -56,7 +56,7 @@ const Page = () => {
           <h3>You are viewing: {decodeURIComponent(grname)}</h3>
         </>
       ) : ( */}
-      <h3>hye</h3>
+      <h3>hye1</h3>
       {/* )} */}
     </div>
   );
