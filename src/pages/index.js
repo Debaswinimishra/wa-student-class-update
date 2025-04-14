@@ -71,6 +71,11 @@ const Page = () => {
     //   window.location.href = "https://wa.me";
     // }, 500);
 
+    if (!selectedClass || !searchParticipant) {
+      alert("Please select a class and participant number before saving.");
+      return;
+    }
+
     try {
       const body = {
         anganwadi: fetchData.anganwadi,
@@ -163,7 +168,7 @@ const Page = () => {
           />
         </div>
 
-        <div style={styles.formGroup}>
+        {/* <div style={styles.formGroup}>
           <label style={styles.label}>Select your class:</label>
           <Select
             value={selectedClass}
@@ -177,7 +182,27 @@ const Page = () => {
               </Option>
             ))}
           </Select>
-        </div>
+        </div> */}
+
+        <Select
+          value={selectedClass}
+          onChange={(value) => setSelectedClass(value)}
+          style={styles.input}
+          placeholder="-- Select Class --"
+        >
+          {Array.from(
+            {
+              length: fetchData?.groupCategory?.toLowerCase().includes("school")
+                ? 10
+                : 3,
+            },
+            (_, i) => (
+              <Option key={i + 1} value={i + 1}>
+                Class {i + 1}
+              </Option>
+            )
+          )}
+        </Select>
 
         <div style={styles.formGroup}>
           <label style={styles.label}>Search Participant:</label>
