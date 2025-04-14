@@ -241,7 +241,7 @@ const styles = {
     width: "100%",
     height: "40px",
     fontSize: "14px",
-    border: "solid black 0.5px",
+    border: "solid black 1px",
     color: "",
   },
   button: {
