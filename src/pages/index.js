@@ -12,6 +12,7 @@ const Page = () => {
   const params = new URLSearchParams(window.location.search);
   const groupId = params.get("groupId");
   const participants = JSON.parse(params.get("participants") || "[]");
+  console.log("Participants---------------------->", participants);
 
   const [childName, setChildName] = useState("");
   const [selectedClass, setSelectedClass] = useState("");
@@ -19,7 +20,7 @@ const Page = () => {
 
   useEffect(() => {
     const path = location.pathname.replace("/", "");
-    const isGridPath = location.pathname.startsWith("/grid=");
+    const isGridPath = location.pathname.startsWith("/data=");
 
     if (!isGridPath && path) {
       const uniqueId = "120363418298125186@g.us";
