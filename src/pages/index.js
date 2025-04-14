@@ -46,6 +46,10 @@ const Page = () => {
     value: p,
     label: `Participant No. ${p}`,
   }));
+  console.log(
+    "fetchData?.participants===============?>",
+    fetchData.participants
+  );
 
   const handleSave = () => {
     console.log("Child Name:", childName);
