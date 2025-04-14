@@ -53,7 +53,7 @@ const Page = () => {
     console.log("Child Name:", childName);
     console.log("Class:", selectedClass);
     console.log("Selected Participant:", searchParticipant);
-    window.location.href = "whatsapp://app";
+    window.location.href = "whatsapp://";
   };
 
   return (
