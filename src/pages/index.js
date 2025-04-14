@@ -202,7 +202,7 @@ const Page = () => {
             placeholder="Type participant number..."
             value={searchParticipant}
             onChange={(e) => setSearchParticipant(e.target.value)}
-            onSearch={(val) => setSearchParticipant(val)}
+            onSearch={(val) => setSearchParticipant(val.target.value)}
             filterOption={(inputValue, option) =>
               option?.label?.toLowerCase().includes(inputValue.toLowerCase())
             }
