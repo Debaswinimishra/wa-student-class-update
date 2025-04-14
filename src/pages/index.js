@@ -12,7 +12,7 @@ const Page = () => {
   const params = new URLSearchParams(window.location.search);
   const groupId = params.get("groupId");
   const participants = JSON.parse(params.get("participants") || "[]");
-  console.log("Participants---------------------->", participants);
+  console.log("Participants---------------------->", params);
 
   const [childName, setChildName] = useState("");
   const [selectedClass, setSelectedClass] = useState("");
