@@ -50,14 +50,15 @@ const Page = () => {
 
   return (
     <div style={{ padding: "20px" }}>
-      {/* {grid && grname ? (
-        <>
-          <h2>Unique ID: {grid}</h2>
-          <h3>You are viewing: {decodeURIComponent(grname)}</h3>
-        </>
-      ) : ( */}
-      <h3>hye1</h3>
-      {/* )} */}
+      {participants?.map((participant, index) => {
+        return (
+          <div key={index}>
+            <h1>
+              {index}. Participant {index + 1}
+            </h1>
+          </div>
+        );
+      })}
     </div>
   );
 };
