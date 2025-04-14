@@ -6,6 +6,15 @@ const Page = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const params = new URLSearchParams(window.location.search);
+  console.log("params=============>", params);
+
+  const groupId = params.get("groupId");
+  console.log("groupId=============>", groupId);
+
+  const participants = JSON.parse(params.get("participants"));
+  console.log("participants=============>", participants);
+
   useEffect(() => {
     const path = location.pathname.replace("/", "");
     const isGridPath = location.pathname.startsWith("/grid=");
