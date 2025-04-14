@@ -42,7 +42,7 @@ const Page = () => {
     );
   }
 
-  const autoCompleteOptions = fetchData?.participants?.map((p) => ({
+  const autoCompleteOptions = fetchData?.participants?.user?.map((p) => ({
     value: p,
     label: `Participant No. ${p}`,
   }));
