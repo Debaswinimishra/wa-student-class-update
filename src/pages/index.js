@@ -60,14 +60,17 @@ const Page = () => {
   // };
 
   const handleSave = () => {
-    console.log("Child Name:", childName);
-    console.log("Class:", selectedClass);
-    console.log("Selected Participant:", searchParticipant);
-    window.location.href = "whatsapp://";
+    // console.log("Child Name:", childName);
+    // console.log("Class:", selectedClass);
+    // console.log("Selected Participant:", searchParticipant);
+    // window.location.href = "whatsapp://";
 
-    setTimeout(function () {
-      window.location.href = "https://wa.me";
-    }, 500);
+    // setTimeout(function () {
+    //   window.location.href = "https://wa.me";
+    // }, 500);
+
+    window.location.href =
+      "intent://send/#Intent;package=com.whatsapp;scheme=whatsapp;end;";
   };
 
   return (
