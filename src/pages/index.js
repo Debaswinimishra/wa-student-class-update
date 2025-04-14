@@ -15,8 +15,9 @@ const Page = () => {
   const fetchData = JSON.parse(params.get("data") || "[]");
 
   const [children, setChildren] = useState([
-    { childName: "", selectedClass: "" },
+    { childName: "", selectedClass: "", gender: "" },
   ]);
+
   const [searchedParticipant, setSearchedParticipant] = useState("");
 
   const autoCompleteOptions = (fetchData?.participants || []).map((p) => ({
@@ -48,7 +49,10 @@ const Page = () => {
   };
 
   const addChild = () => {
-    setChildren([...children, { childName: "", selectedClass: "" }]);
+    setChildren([
+      ...children,
+      { childName: "", selectedClass: "", gender: "" },
+    ]);
   };
 
   const handleSave = async () => {
@@ -180,6 +184,19 @@ const Page = () => {
                     </Option>
                   )
                 )}
+              </Select>
+            </div>
+
+            <div style={{ marginTop: 10 }}>
+              <label style={styles.label}>Select Gender:</label>
+              <Select
+                placeholder="-- Select Gender --"
+                value={child.gender}
+                style={styles.input}
+                onChange={(value) => handleChildChange(index, "gender", value)}
+              >
+                <Option value="male">Boy</Option>
+                <Option value="female">Girl</Option>
               </Select>
             </div>
           </div>
