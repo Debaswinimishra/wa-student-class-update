@@ -62,10 +62,10 @@ const Page = () => {
     }
 
     const incompleteChild = children.find(
-      (child) => !child.childName || !child.selectedClass
+      (child) => !child.childName || !child.selectedClass || !child.gender
     );
     if (incompleteChild) {
-      alert("Please fill all child names and classes before saving.");
+      alert("Please fill all child names, classes and gender before saving.");
       return;
     }
 
