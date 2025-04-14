@@ -65,7 +65,7 @@ const Page = () => {
       (child) => !child.selectedClass || !child.gender
     );
     if (incompleteChild) {
-      alert("Please fill all child names, classes and gender before saving.");
+      alert("Please fill classes and gender before saving.");
       return;
     }
 
