@@ -121,13 +121,15 @@ const Page = () => {
         <div style={styles.formGroup}>
           <label style={styles.label}>Search Participant:</label>
           <AutoComplete
-            options={autoCompleteOptions.value}
+            options={autoCompleteOptions}
             style={styles.input}
             placeholder="Type participant number..."
             value={searchParticipant}
             onChange={setSearchParticipant}
+            onSearch={() => {}}
+            open={true} // <- always open (optional, not always recommended)
             filterOption={(inputValue, option) =>
-              option?.value?.toLowerCase().includes(inputValue.toLowerCase())
+              option?.label?.toLowerCase().includes(inputValue.toLowerCase())
             }
           />
         </div>
