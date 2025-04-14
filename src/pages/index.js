@@ -11,8 +11,8 @@ const Page = () => {
 
   const params = new URLSearchParams(window.location.search);
   const groupId = params.get("groupId");
-  const participants = JSON.parse(params.get("data") || "[]");
-  console.log("Data---------------------->", participants);
+  const fetchData = JSON.parse(params.get("data") || "[]");
+  console.log("Data---------------------->", fetchData);
 
   const [childName, setChildName] = useState("");
   const [selectedClass, setSelectedClass] = useState("");
@@ -42,7 +42,7 @@ const Page = () => {
     );
   }
 
-  const autoCompleteOptions = participants.map((p) => ({
+  const autoCompleteOptions = fetchData?.participants?.map((p) => ({
     value: p,
     label: `Participant No. ${p}`,
   }));
@@ -57,6 +57,39 @@ const Page = () => {
     <div style={styles.wrapper}>
       <div style={styles.card}>
         <h2 style={styles.title}>Child Registration</h2>
+
+        <div style={styles.formGroup}>
+          <label style={styles.label}>District name:</label>
+          <Input
+            value={fetchData.district}
+            // onChange={(e) => setChildName(e.target.value)}
+            // placeholder="Child Name"
+            style={styles.input}
+            disabled={true}
+          />
+        </div>
+
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Category:</label>
+          <Input
+            value={fetchData.groupCategory}
+            // onChange={(e) => setChildName(e.target.value)}
+            // placeholder="Child Name"
+            style={styles.input}
+            disabled={true}
+          />
+        </div>
+
+        <div style={styles.formGroup}>
+          <label style={styles.label}>GroupName:</label>
+          <Input
+            value={fetchData.groupName}
+            // onChange={(e) => setChildName(e.target.value)}
+            // placeholder="Child Name"
+            style={styles.input}
+            disabled={true}
+          />
+        </div>
 
         <div style={styles.formGroup}>
           <label style={styles.label}>Enter your child name:</label>
