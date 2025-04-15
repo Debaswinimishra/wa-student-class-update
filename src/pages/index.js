@@ -170,20 +170,25 @@ const Page = () => {
                   handleChildChange(index, "selectedClass", value)
                 }
               >
-                {Array.from(
-                  {
-                    length: fetchData?.groupCategory
-                      ?.toLowerCase()
-                      .includes("school")
-                      ? 10
-                      : 3,
-                  },
-                  (_, i) => (
-                    <Option key={i + 1} value={i + 1}>
-                      Class {i + 1}
-                    </Option>
-                  )
-                )}
+                {(fetchData?.groupCategory?.toLowerCase().includes("school")
+                  ? [
+                      "ପ୍ରଥମ",
+                      "ଦ୍ୱିତୀୟ",
+                      "ତୃତୀୟ",
+                      "ଚତୁର୍ଥ",
+                      "ପଞ୍ଚମ",
+                      "ଷଷ୍ଠ",
+                      "ସପ୍ତମ",
+                      "ଅଷ୍ଟମ",
+                      "ନବମ",
+                      "ଦଶମ",
+                    ]
+                  : ["ପ୍ରଥମ", "ଦ୍ୱିତୀୟ", "ତୃତୀୟ"]
+                ).map((label, i) => (
+                  <Option key={i + 1} value={label}>
+                    {label}
+                  </Option>
+                ))}
               </Select>
             </div>
 
