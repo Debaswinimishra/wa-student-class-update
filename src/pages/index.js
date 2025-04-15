@@ -110,11 +110,11 @@ const Page = () => {
   //     alert("Something went wrong while saving.");
   //   }
   // };
- 
+
   const handleSave = () => {
     setLoading(true); // Show loader
 
-    alert("You will now be redirected to WhatsApp.");
+    alert("ଆପଣଙ୍କ ତଥ୍ୟ ସେଭ ହେଇଯାଇଛି।");
 
     // Try to open WhatsApp directly
     window.location.href = "whatsapp://";
