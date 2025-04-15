@@ -5,7 +5,7 @@ import { AutoComplete, Input, Select } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import backgroundImg from "../assests/peakpx.jpg";
 import axios from "axios";
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 
 const { Option } = Select;
 
