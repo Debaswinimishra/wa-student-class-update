@@ -111,11 +111,14 @@ const Page = () => {
 
   const handleSave = () => {
     alert("You will now be redirected to WhatsApp.");
+    openWhatsApp();
+  };
 
-    // Redirect to WhatsApp
+  const openWhatsApp = () => {
+    // Try to open WhatsApp directly
     window.location.href = "whatsapp://";
 
-    // Fallback after 2 seconds
+    // Fallback to wa.me link after 2 seconds
     setTimeout(() => {
       window.location.href = "https://wa.me/";
     }, 2000);
