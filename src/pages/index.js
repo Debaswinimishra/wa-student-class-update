@@ -110,21 +110,15 @@ const Page = () => {
   // };
 
   const handleSave = () => {
-    Swal.fire({
-      title: "Open WhatsApp?",
-      text: "Do you want to continue to WhatsApp?",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonText: "Yes",
-      cancelButtonText: "No",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        window.location.href = "whatsapp://";
-        setTimeout(() => {
-          window.location.href = "https://wa.me/";
-        }, 2000);
-      }
-    });
+    alert("You will now be redirected to WhatsApp.");
+
+    // Redirect to WhatsApp
+    window.location.href = "whatsapp://";
+
+    // Fallback after 2 seconds
+    setTimeout(() => {
+      window.location.href = "https://wa.me/";
+    }, 2000);
   };
 
   return (
