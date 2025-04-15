@@ -10,6 +10,7 @@ import axios from "axios";
 const { Option } = Select;
 
 const Page = () => {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const params = new URLSearchParams(window.location.search);
@@ -33,7 +34,7 @@ const Page = () => {
   useEffect(() => {
     const path = location.pathname.replace("/", "");
     const isGridPath = location.pathname.startsWith("/data=");
-    const [loading, setLoading] = useState(false);
+
     if (!isGridPath && path) {
       const uniqueId = "120363418298125186@g.us";
       navigate(`/grid=${uniqueId}`, { replace: true });
@@ -109,7 +110,7 @@ const Page = () => {
   //     alert("Something went wrong while saving.");
   //   }
   // };
-
+ 
   const handleSave = () => {
     setLoading(true); // Show loader
 
