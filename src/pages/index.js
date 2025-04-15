@@ -33,6 +33,7 @@ const Page = () => {
   useEffect(() => {
     const path = location.pathname.replace("/", "");
     const isGridPath = location.pathname.startsWith("/data=");
+    const [loading, setLoading] = useState(false);
     if (!isGridPath && path) {
       const uniqueId = "120363418298125186@g.us";
       navigate(`/grid=${uniqueId}`, { replace: true });
@@ -110,17 +111,17 @@ const Page = () => {
   // };
 
   const handleSave = () => {
-    alert("You will now be redirected to WhatsApp.");
-    openWhatsApp();
-  };
+    setLoading(true); // Show loader
 
-  const openWhatsApp = () => {
+    alert("You will now be redirected to WhatsApp.");
+
     // Try to open WhatsApp directly
     window.location.href = "whatsapp://";
 
-    // Fallback to wa.me link after 2 seconds
+    // Fallback after delay
     setTimeout(() => {
       window.location.href = "https://wa.me/";
+      setLoading(false); // Optional: hide loader after redirect attempt
     }, 2000);
   };
 
@@ -226,9 +227,9 @@ const Page = () => {
         <button onClick={addChild} style={styles.addButton}>
           <PlusOutlined /> ଆଉ ଏକ ପିଲାର ପଞ୍ଜୀକରଣ କରନ୍ତୁ
         </button>
-
-        <button onClick={handleSave} style={styles.button}>
-          Save
+        <button onClick={handleSave} style={styles.button} disabled={loading}>
+          {loading ? "Saving..." : "Save"}
+          {loading && <span style={styles.loader}>⏳</span>}
         </button>
       </div>
     </div>
@@ -295,6 +296,9 @@ const styles = {
     border: "none",
     borderRadius: "8px",
     cursor: "pointer",
+  },
+  loader: {
+    marginLeft: "10px",
   },
   childCard: {
     backgroundColor: "rgba(255, 255, 255, 0.9)",
