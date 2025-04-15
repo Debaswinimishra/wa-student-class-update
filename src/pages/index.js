@@ -56,56 +56,57 @@ const Page = () => {
   };
 
   const handleSave = async () => {
-    if (!searchedParticipant) {
-      alert("Please select a participant before saving.");
-      return;
-    }
+    
+    // if (!searchedParticipant) {
+    //   alert("Please select a participant before saving.");
+    //   return;
+    // }
 
-    const incompleteChild = children.find(
-      (child) => !child.selectedClass || !child.gender
-    );
-    if (incompleteChild) {
-      alert("Please fill classes and gender before saving.");
-      return;
-    }
+    // const incompleteChild = children.find(
+    //   (child) => !child.selectedClass || !child.gender
+    // );
+    // if (incompleteChild) {
+    //   alert("Please fill classes and gender before saving.");
+    //   return;
+    // }
 
-    try {
-      const responses = await Promise.all(
-        children.map((child) => {
-          const body = {
-            anganwadi: fetchData.anganwadi,
-            block: fetchData.block,
-            cluster: fetchData.cluster,
-            district: fetchData.district,
-            groupCategory: fetchData.groupCategory,
-            groupId: fetchData.groupId,
-            groupName: fetchData.groupName,
-            participants: fetchData.participants,
-            project: fetchData.project,
-            school: fetchData.school,
-            sector: fetchData.sector,
-            studentId: new Date().getTime() + Math.floor(Math.random() * 1000),
-            studentName: child.childName,
-            class: child.selectedClass,
-            phoneNumber: searchedParticipant,
-            academicType: fetchData.groupCategory,
-            parentsName: "",
-          };
+    // try {
+    //   const responses = await Promise.all(
+    //     children.map((child) => {
+    //       const body = {
+    //         anganwadi: fetchData.anganwadi,
+    //         block: fetchData.block,
+    //         cluster: fetchData.cluster,
+    //         district: fetchData.district,
+    //         groupCategory: fetchData.groupCategory,
+    //         groupId: fetchData.groupId,
+    //         groupName: fetchData.groupName,
+    //         participants: fetchData.participants,
+    //         project: fetchData.project,
+    //         school: fetchData.school,
+    //         sector: fetchData.sector,
+    //         studentId: new Date().getTime() + Math.floor(Math.random() * 1000),
+    //         studentName: child.childName,
+    //         class: child.selectedClass,
+    //         phoneNumber: searchedParticipant,
+    //         academicType: fetchData.groupCategory,
+    //         parentsName: "",
+    //       };
 
-          return axios.post(
-            "https://tatvagyan.in/tz/saveWaValidatedClass",
-            body
-          );
-        })
-      );
+    //       return axios.post(
+    //         "https://tatvagyan.in/tz/saveWaValidatedClass",
+    //         body
+    //       );
+    //     })
+    //   );
 
-      console.log("Saved Responses:", responses);
-      window.location.href =
-        "intent://send/#Intent;package=com.whatsapp;scheme=whatsapp;end;";
-    } catch (error) {
-      console.error("Save Error:", error);
-      alert("Something went wrong while saving.");
-    }
+    //   console.log("Saved Responses:", responses);
+    //   window.location.href =
+    //     "intent://send/#Intent;package=com.whatsapp;scheme=whatsapp;end;";
+    // } catch (error) {
+    //   console.error("Save Error:", error);
+    //   alert("Something went wrong while saving.");
+    // }
   };
 
   return (
