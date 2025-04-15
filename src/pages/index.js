@@ -110,7 +110,7 @@ const Page = () => {
 
   const handleSave = () => {
     // Try to open WhatsApp directly
-    window.location.href = "whatsapp://send";
+    window.location.href = "whatsapp://";
 
     // Fallback to wa.me link after a delay
     setTimeout(() => {
