@@ -5,6 +5,7 @@ import { AutoComplete, Input, Select } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import backgroundImg from "../assests/peakpx.jpg";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const { Option } = Select;
 
@@ -109,13 +110,21 @@ const Page = () => {
   // };
 
   const handleSave = () => {
-    // Try to open WhatsApp directly
-    window.location.href = "whatsapp://";
-
-    // Fallback to wa.me link after a delay
-    setTimeout(() => {
-      window.location.href = "https://wa.me/";
-    }, 2000);
+    Swal.fire({
+      title: "Open WhatsApp?",
+      text: "Do you want to continue to WhatsApp?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = "whatsapp://";
+        setTimeout(() => {
+          window.location.href = "https://wa.me/";
+        }, 2000);
+      }
+    });
   };
 
   return (
