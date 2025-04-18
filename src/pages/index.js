@@ -66,6 +66,11 @@ const Page = () => {
     ]);
   };
 
+  console.log(
+    "searchedParticipant.length < 12-------->",
+    searchedParticipant.length < 12
+  );
+
   const handleSave = async () => {
     if (!searchedParticipant || searchedParticipant.length < 12) {
       alert("ଦୟା କରି ନିଜର ୧୦ ଡିଜିଟ ବାଲା ବୈଧ ନମ୍ବର ଦିଅନ୍ତୁ।");
