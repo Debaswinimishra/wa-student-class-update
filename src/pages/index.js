@@ -56,6 +56,7 @@ const Page = () => {
     setChildren(updated);
   };
 
+  console.log("params--------------->", params);
   console.log("fetchData---------->", fetchData);
 
   const addChild = () => {
@@ -70,7 +71,6 @@ const Page = () => {
       alert("ଦୟା କରି ନିଜର ୧୦ ଡିଜିଟ ବାଲା ବୈଧ ନମ୍ବର ଦିଅନ୍ତୁ।");
       return;
     }
-
     const incompleteChild = children.find((child) => !child.selectedClass);
 
     console.log("incompleteChild---------->", incompleteChild);
@@ -78,11 +78,10 @@ const Page = () => {
       alert("ଦୟା କରି ନିଜ ପିଲା ର ଶ୍ରେଣୀ ଚୟନ କରନ୍ତୁ।");
       return;
     }
-
     try {
       const responses = await Promise.all(
         children.map((child) => {
-          console.log("child data--------->", child);
+          console.log("child data received--------->", child);
           const body = {
             anganwadi: fetchData.anganwadi,
             block: fetchData.block,
