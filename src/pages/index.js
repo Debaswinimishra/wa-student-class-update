@@ -149,7 +149,7 @@ const Page = () => {
           <label style={styles.label}>Group Name:</label>
           <Input value={fetchData.groupName} style={styles.input} disabled />
         </div> */}
-        {/* 
+
         <div style={styles.formGroup}>
           <label style={styles.label}>ନିଜ ନମ୍ବର ଚୟନ କରନ୍ତୁ :</label>
           <AutoComplete
@@ -162,11 +162,11 @@ const Page = () => {
               option?.label?.toLowerCase().includes(inputValue.toLowerCase())
             }
           />
-        </div> */}
+        </div>
 
         {children.map((child, index) => (
           <div key={index} style={styles.childCard}>
-            {/* <h3 style={styles.childTitle}>Child {index + 1}</h3>
+            <h3 style={styles.childTitle}>Child {index + 1}</h3>
             <div style={{ marginBottom: 10 }}>
               <label style={styles.label}>Child Name:</label>
               <Input
@@ -177,7 +177,7 @@ const Page = () => {
                 }
                 style={styles.input}
               />
-            </div> */}
+            </div>
             <div>
               <label style={styles.label}>ପିଲାର ଶ୍ରେଣୀ ଚୟନ କରନ୍ତୁ:</label>
               <Select
