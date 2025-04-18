@@ -61,82 +61,81 @@ const Page = () => {
     ]);
   };
 
-  // const handleSave = async () => {
-  //   if (!searchedParticipant) {
-  //     alert("Please select a participant before saving.");
-  //     return;
-  //   }
+  const handleSave = async () => {
+    if (!searchedParticipant) {
+      alert("ଦୟା କରି ନିଜର ୧୦ ଡିଜିଟ ବାଲା ବୈଧ ନମ୍ବର ଦିଅନ୍ତୁ।");
+      return;
+    }
 
-  //   const incompleteChild = children.find(
-  //     (child) => !child.selectedClass || !child.gender
-  //   );
-  //   if (incompleteChild) {
-  //     alert("Please fill classes and gender before saving.");
-  //     return;
-  //   }
+    const incompleteChild = children.find((child) => !child.selectedClass);
 
-  //   try {
-  //     const responses = await Promise.all(
-  //       children.map((child) => {
-  //         const body = {
-  //           anganwadi: fetchData.anganwadi,
-  //           block: fetchData.block,
-  //           cluster: fetchData.cluster,
-  //           district: fetchData.district,
-  //           groupCategory: fetchData.groupCategory,
-  //           groupId: fetchData.groupId,
-  //           groupName: fetchData.groupName,
-  //           participants: fetchData.participants,
-  //           project: fetchData.project,
-  //           school: fetchData.school,
-  //           sector: fetchData.sector,
-  //           studentId: new Date().getTime() + Math.floor(Math.random() * 1000),
-  //           studentName: child.childName,
-  //           class: child.selectedClass,
-  //           phoneNumber: searchedParticipant,
-  //           academicType: fetchData.groupCategory,
-  //           parentsName: "",
-  //         };
+    console.log("incompleteChild---------->", incompleteChild);
+    if (incompleteChild) {
+      alert("ଦୟା କରି ନିଜ ପିଲା ର ଶ୍ରେଣୀ ଚୟନ କରନ୍ତୁ।");
+      return;
+    }
 
-  //         return axios.post(
-  //           "https://tatvagyan.in/tz/saveWaValidatedClass",
-  //           body
-  //         );
-  //       })
-  //     );
+    try {
+      const responses = await Promise.all(
+        children.map((child) => {
+          const body = {
+            anganwadi: fetchData.anganwadi,
+            block: fetchData.block,
+            cluster: fetchData.cluster,
+            district: fetchData.district,
+            groupCategory: "school",
+            groupId: fetchData.groupId,
+            groupName: fetchData.groupName,
+            participants: fetchData.participants,
+            project: fetchData.project,
+            school: fetchData.school,
+            sector: fetchData.sector,
+            studentId: new Date().getTime() + Math.floor(Math.random() * 1000),
+            studentName: child.childName,
+            class: child.selectedClass,
+            phoneNumber: searchedParticipant,
+            academicType: "school",
+            parentsName: "",
+          };
 
-  //     console.log("Saved Responses:", responses);
-  //     window.location.href =
-  //       "intent://send/#Intent;package=com.whatsapp;scheme=whatsapp;end;";
-  //   } catch (error) {
-  //     console.error("Save Error:", error);
-  //     alert("Something went wrong while saving.");
-  //   }
-  // };
+          return axios.post(
+            "https://tatvagyan.in/tz/saveWaValidatedClass",
+            body
+          );
+        })
+      );
 
-  const handleSave = () => {
-    if (searchedParticipant.length < 12) {
-      alert()
-    } else {
-      setLoading(true); // Show loader
-
-      alert("ଆପଣଙ୍କ ତଥ୍ୟ ସେଭ ହେଇଯାଇଛି।");
-
-      // Try to open WhatsApp directly
-      window.location.href = "whatsapp://";
-
-      // Fallback after delay
-      setTimeout(() => {
-        window.location.href = "https://wa.me/";
-        setLoading(false); // Optional: hide loader after redirect attempt
-      }, 2000);
+      console.log("Saved Responses:", responses);
+      window.location.href = "https://wa.me/";
+    } catch (error) {
+      console.error("Save Error:", error);
+      alert("Something went wrong while saving.");
     }
   };
+
+  // const handleSave = () => {
+  //   if (searchedParticipant.length < 12) {
+  //     alert("ଦୟା କରି ନିଜର ୧୦ ଡିଜିଟ ବାଲା ବୈଧ ନମ୍ବର ଦିଅନ୍ତୁ।");
+  //   } else {
+  //     setLoading(true); // Show loader
+
+  //     alert("ଆପଣଙ୍କ ତଥ୍ୟ ସେଭ ହେଇଯାଇଛି।");
+
+  //     // Try to open WhatsApp directly
+  //     window.location.href = "whatsapp://";
+
+  //     // Fallback after delay
+  //     setTimeout(() => {
+  //       window.location.href = "https://wa.me/";
+  //       setLoading(false); // Optional: hide loader after redirect attempt
+  //     }, 2000);
+  //   }
+  // };
 
   return (
     <div style={styles.wrapper}>
       <div style={styles.card}>
-        <h2 style={styles.title}>ଶ୍ରେଣୀ ପଞ୍ଜୀକରଣ</h2>
+        <h2 style={styles.title}>ଶ୍ରେଣୀ ଚୟନ</h2>
 
         {/* <div style={styles.formGroup}>
           <label style={styles.label}>District Name:</label>
@@ -190,9 +189,9 @@ const Page = () => {
           <div key={index} style={styles.childCard}>
             <h3 style={styles.childTitle}>Child {index + 1}</h3>
             <div style={{ marginBottom: 10 }}>
-              <label style={styles.label}>Child Name:</label>
+              <label style={styles.label}>ପିଲାର ନାମ</label>
               <Input
-                placeholder="Enter Child Name"
+                placeholder="ପିଲାର ନାମ ଲେଖନ୍ତୁ"
                 value={child.childName}
                 onChange={(e) =>
                   handleChildChange(index, "childName", e.target.value)
@@ -210,21 +209,18 @@ const Page = () => {
                   handleChildChange(index, "selectedClass", value)
                 }
               >
-                {(fetchData?.groupCategory?.toLowerCase().includes("school")
-                  ? [
-                      "ପ୍ରଥମ",
-                      "ଦ୍ୱିତୀୟ",
-                      "ତୃତୀୟ",
-                      "ଚତୁର୍ଥ",
-                      "ପଞ୍ଚମ",
-                      "ଷଷ୍ଠ",
-                      "ସପ୍ତମ",
-                      "ଅଷ୍ଟମ",
-                      "ନବମ",
-                      "ଦଶମ",
-                    ]
-                  : ["ପ୍ରଥମ", "ଦ୍ୱିତୀୟ", "ତୃତୀୟ"]
-                ).map((label, i) => (
+                {[
+                  "ପ୍ରଥମ",
+                  "ଦ୍ୱିତୀୟ",
+                  "ତୃତୀୟ",
+                  "ଚତୁର୍ଥ",
+                  "ପଞ୍ଚମ",
+                  "ଷଷ୍ଠ",
+                  "ସପ୍ତମ",
+                  "ଅଷ୍ଟମ",
+                  "ନବମ",
+                  "ଦଶମ",
+                ].map((label, i) => (
                   <Option key={i + 1} value={label}>
                     {label}
                   </Option>
@@ -251,7 +247,7 @@ const Page = () => {
           <PlusOutlined /> ଆଉ ଏକ ପିଲାର ପଞ୍ଜୀକରଣ କରନ୍ତୁ
         </button>
         <button onClick={handleSave} style={styles.button} disabled={loading}>
-          {loading ? "Saving..." : "Save"}
+          {loading ? "Saving..." : "ସେଭ୍ କରନ୍ତୁ"}
           {loading && <span style={styles.loader}>⏳</span>}
         </button>
       </div>
