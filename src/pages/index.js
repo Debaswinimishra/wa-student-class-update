@@ -66,6 +66,8 @@ const Page = () => {
     ]);
   };
 
+  console.log("searchedParticipant--------->", searchedParticipant);
+
   const handleSave = async () => {
     if (!searchedParticipant) {
       alert("ଦୟା କରି ନିଜର ୧୦ ଡିଜିଟ ବାଲା ବୈଧ ନମ୍ବର ଦିଅନ୍ତୁ।");
@@ -73,7 +75,6 @@ const Page = () => {
     }
     const incompleteChild = children.find((child) => !child.selectedClass);
 
-    console.log("incompleteChild---------->", incompleteChild);
     if (incompleteChild) {
       alert("ଦୟା କରି ନିଜ ପିଲା ର ଶ୍ରେଣୀ ଚୟନ କରନ୍ତୁ।");
       return;
@@ -81,7 +82,6 @@ const Page = () => {
     try {
       const responses = await Promise.all(
         children.map((child) => {
-          console.log("child data received--------->", child);
           const body = {
             anganwadi: fetchData.anganwadi,
             block: fetchData.block,
@@ -102,8 +102,7 @@ const Page = () => {
             parentsName: "",
           };
 
-
-          console.log("body sent----------->",body)
+          console.log("body sent----------->", body);
           return axios.post(
             "https://tatvagyan.in/osepa/saveWaValidatedClass",
             body
