@@ -115,18 +115,22 @@ const Page = () => {
   // };
 
   const handleSave = () => {
-    setLoading(true); // Show loader
+    if (searchedParticipant.length < 12) {
+      alert()
+    } else {
+      setLoading(true); // Show loader
 
-    alert("ଆପଣଙ୍କ ତଥ୍ୟ ସେଭ ହେଇଯାଇଛି।");
+      alert("ଆପଣଙ୍କ ତଥ୍ୟ ସେଭ ହେଇଯାଇଛି।");
 
-    // Try to open WhatsApp directly
-    window.location.href = "whatsapp://";
+      // Try to open WhatsApp directly
+      window.location.href = "whatsapp://";
 
-    // Fallback after delay
-    setTimeout(() => {
-      window.location.href = "https://wa.me/";
-      setLoading(false); // Optional: hide loader after redirect attempt
-    }, 2000);
+      // Fallback after delay
+      setTimeout(() => {
+        window.location.href = "https://wa.me/";
+        setLoading(false); // Optional: hide loader after redirect attempt
+      }, 2000);
+    }
   };
 
   return (
@@ -155,7 +159,7 @@ const Page = () => {
 
         <div style={styles.formGroup}>
           <label style={styles.label}>ନିଜ ନମ୍ବର ଚୟନ କରନ୍ତୁ :</label>
-          <AutoComplete
+          {/* <AutoComplete
             options={autoCompleteOptions}
             placeholder="ନିଜ ନମ୍ବର ଚୟନ କରନ୍ତୁ..."
             style={styles.input}
@@ -164,7 +168,22 @@ const Page = () => {
             filterOption={(inputValue, option) =>
               option?.label?.toLowerCase().includes(inputValue.toLowerCase())
             }
+          > */}
+          <Input
+            addonBefore="+91"
+            value={
+              searchedParticipant.startsWith("91")
+                ? searchedParticipant.slice(2)
+                : searchedParticipant
+            }
+            onChange={(e) => {
+              const input = e.target.value.replace(/\D/g, "").slice(0, 10);
+              participantOnChange("91" + input);
+            }}
+            maxLength={10}
+            placeholder="ନିଜ ନମ୍ବର ଚୟନ କରନ୍ତୁ..."
           />
+          {/* </AutoComplete> */}
         </div>
 
         {children.map((child, index) => (
