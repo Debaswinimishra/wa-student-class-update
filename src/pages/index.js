@@ -102,6 +102,8 @@ const Page = () => {
             parentsName: "",
           };
 
+
+          console.log("body sent----------->",body)
           return axios.post(
             "https://tatvagyan.in/osepa/saveWaValidatedClass",
             body
