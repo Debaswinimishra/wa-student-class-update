@@ -22,12 +22,15 @@ const Page = () => {
 
   const [searchedParticipant, setSearchedParticipant] = useState("");
 
+  console.log("searched Participants------------>", searchedParticipant);
+
   const autoCompleteOptions = (fetchData?.participants || []).map((p) => ({
     value: String(p),
     label: String(p),
   }));
 
   const participantOnChange = (value) => {
+    console.log("value---------->>", value);
     setSearchedParticipant(value);
   };
 
