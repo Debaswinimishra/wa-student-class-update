@@ -51,8 +51,12 @@ const Page = () => {
   const handleChildChange = (index, field, value) => {
     const updated = [...children];
     updated[index][field] = value;
+    console.log("field----------->", field);
+    console.log("value------------->", value);
     setChildren(updated);
   };
+
+  console.log("fetchData---------->", fetchData);
 
   const addChild = () => {
     setChildren([
@@ -78,6 +82,7 @@ const Page = () => {
     try {
       const responses = await Promise.all(
         children.map((child) => {
+          console.log("child data--------->", child);
           const body = {
             anganwadi: fetchData.anganwadi,
             block: fetchData.block,
@@ -99,7 +104,7 @@ const Page = () => {
           };
 
           return axios.post(
-            "https://tatvagyan.in/tz/saveWaValidatedClass",
+            "https://tatvagyan.in/osepa/saveWaValidatedClass",
             body
           );
         })
@@ -210,19 +215,19 @@ const Page = () => {
                 }
               >
                 {[
-                  "ପ୍ରଥମ",
-                  "ଦ୍ୱିତୀୟ",
-                  "ତୃତୀୟ",
-                  "ଚତୁର୍ଥ",
-                  "ପଞ୍ଚମ",
-                  "ଷଷ୍ଠ",
-                  "ସପ୍ତମ",
-                  "ଅଷ୍ଟମ",
-                  "ନବମ",
-                  "ଦଶମ",
-                ].map((label, i) => (
-                  <Option key={i + 1} value={label}>
-                    {label}
+                  { label: "ପ୍ରଥମ", value: 1 },
+                  { label: "ଦ୍ୱିତୀୟ", value: 2 },
+                  { label: "ତୃତୀୟ", value: 3 },
+                  { label: "ଚତୁର୍ଥ", value: 4 },
+                  { label: "ପଞ୍ଚମ", value: 5 },
+                  { label: "ଷଷ୍ଠ", value: 6 },
+                  { label: "ସପ୍ତମ", value: 7 },
+                  { label: "ଅଷ୍ଟମ", value: 8 },
+                  { label: "ନବମ", value: 9 },
+                  { label: "ଦଶମ", value: 10 },
+                ].map((item, i) => (
+                  <Option key={i + 1} value={item.value}>
+                    {item.label}
                   </Option>
                 ))}
               </Select>
