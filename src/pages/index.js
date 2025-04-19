@@ -76,7 +76,7 @@ const Page = () => {
     if (!searchedParticipant || searchedParticipant.length < 12) {
       alert("ଦୟା କରି ନିଜର ୧୦ ଡିଜିଟ ବାଲା ବୈଧ ନମ୍ବର ଦିଅନ୍ତୁ।");
       return;
-    } else if (!validWANumber) {
+    } else if (!validWANumber || validWANumber.length < 1) {
       alert(
         "ଆପଣ ଦେଇଥିବା ନମ୍ବରଟି WhatsApp ଗ୍ରୁପରେ ନାହିଁ, ଦୟାକରି ନିଜର WhatsApp ନମ୍ବରଟି ଦିଅନ୍ତୁ।"
       );
