@@ -22,8 +22,6 @@ const Page = () => {
 
   const [searchedParticipant, setSearchedParticipant] = useState("");
 
-  console.log("searched Participants------------>", searchedParticipant);
-
   const autoCompleteOptions = (fetchData?.participants || []).map((p) => ({
     value: String(p),
     label: String(p),
@@ -50,12 +48,11 @@ const Page = () => {
   const handleChildChange = (index, field, value) => {
     const updated = [...children];
     updated[index][field] = value;
-    console.log("field----------->", field);
-    console.log("value------------->", value);
     setChildren(updated);
   };
 
-  console.log("params--------------->", params);
+  console.log("searched Participants------------>", searchedParticipant);
+
   console.log("fetchData---------->", fetchData);
 
   const addChild = () => {
@@ -65,105 +62,77 @@ const Page = () => {
     ]);
   };
 
+  const removeChild = (indexToRemove) => {
+    setChildren(children.filter((_, index) => index !== indexToRemove));
+  };
+
   const handleSave = async () => {
+    const validWANumber = fetchData?.participants?.filter((num) => {
+      return num === searchedParticipant;
+    });
+
+    console.log("validWANumber------------>", validWANumber);
+
     if (!searchedParticipant || searchedParticipant.length < 12) {
       alert("ଦୟା କରି ନିଜର ୧୦ ଡିଜିଟ ବାଲା ବୈଧ ନମ୍ବର ଦିଅନ୍ତୁ।");
       return;
-    }
-    const incompleteChild = children.find((child) => !child.selectedClass);
-
-    if (incompleteChild) {
-      alert("ଦୟା କରି ନିଜ ପିଲା ର ଶ୍ରେଣୀ ଚୟନ କରନ୍ତୁ।");
-      return;
-    }
-    try {
-      const responses = await Promise.all(
-        children.map((child) => {
-          const body = {
-            anganwadi: fetchData.anganwadi,
-            block: fetchData.block,
-            cluster: fetchData.cluster,
-            district: fetchData.district,
-            groupCategory: "school",
-            groupId: fetchData.groupId,
-            groupName: fetchData.groupName,
-            participants: fetchData.participants,
-            project: fetchData.project,
-            school: fetchData.school,
-            sector: fetchData.sector,
-            studentId: new Date().getTime() + Math.floor(Math.random() * 1000),
-            studentName: child.childName,
-            class: child.selectedClass,
-            phoneNumber: searchedParticipant,
-            academicType: "school",
-            parentsName: "",
-          };
-
-          console.log("body sent----------->", body);
-          return axios.post(
-            "https://tatvagyan.in/osepa/saveWaValidatedClass",
-            body
-          );
-        })
+    } else if (!validWANumber) {
+      alert(
+        "ଆପଣ ଦେଇଥିବା ନମ୍ବରଟି WhatsApp ଗ୍ରୁପରେ ନାହିଁ, ଦୟାକରି ନିଜର WhatsApp ନମ୍ବରଟି ଦିଅନ୍ତୁ।"
       );
+      return;
+    } else {
+      const incompleteChild = children.find((child) => !child.selectedClass);
 
-      console.log("Saved Responses:", responses);
-      window.location.href = "https://wa.me/";
-    } catch (error) {
-      console.error("Save Error:", error);
-      alert("Something went wrong while saving.");
+      if (incompleteChild) {
+        alert("ଦୟା କରି ନିଜ ପିଲା ର ଶ୍ରେଣୀ ଚୟନ କରନ୍ତୁ।");
+        return;
+      }
+      try {
+        const responses = await Promise.all(
+          children.map((child) => {
+            const body = {
+              anganwadi: fetchData.anganwadi,
+              block: fetchData.block,
+              cluster: fetchData.cluster,
+              district: fetchData.district,
+              groupCategory: "school",
+              groupId: fetchData.groupId,
+              groupName: fetchData.groupName,
+              participants: fetchData.participants,
+              project: fetchData.project,
+              school: fetchData.school,
+              sector: fetchData.sector,
+              studentId:
+                new Date().getTime() + Math.floor(Math.random() * 1000),
+              studentName: child.childName,
+              class: child.selectedClass,
+              phoneNumber: searchedParticipant,
+              academicType: "school",
+              parentsName: "",
+            };
+
+            console.log("body sent----------->", body);
+            return axios.post(
+              "https://tatvagyan.in/osepa/saveWaValidatedClass",
+              body
+            );
+          })
+        );
+
+        console.log("Saved Responses:", responses);
+        window.location.href = "https://wa.me/";
+      } catch (error) {
+        console.error("Save Error:", error);
+        alert("Something went wrong while saving.");
+      }
     }
   };
-
-  // const handleSave = () => {
-  //   if (searchedParticipant.length < 12) {
-  //     alert("ଦୟା କରି ନିଜର ୧୦ ଡିଜିଟ ବାଲା ବୈଧ ନମ୍ବର ଦିଅନ୍ତୁ।");
-  //   } else {
-  //     setLoading(true); // Show loader
-
-  //     alert("ଆପଣଙ୍କ ତଥ୍ୟ ସେଭ ହେଇଯାଇଛି।");
-
-  //     // Try to open WhatsApp directly
-  //     window.location.href = "whatsapp://";
-
-  //     // Fallback after delay
-  //     setTimeout(() => {
-  //       window.location.href = "https://wa.me/";
-  //       setLoading(false); // Optional: hide loader after redirect attempt
-  //     }, 2000);
-  //   }
-  // };
-
-  // useEffect(()=>{
-  //   if(searchedParticipant.length===12){
-
-  //   }
-
-  // },[])
 
   return (
     <div style={styles.wrapper}>
       <div style={styles.card}>
         <h2 style={styles.title}>ଶ୍ରେଣୀ ଚୟନ</h2>
-
-        {/* <div style={styles.formGroup}>
-          <label style={styles.label}>District Name:</label>
-          <Input value={fetchData.district} style={styles.input} disabled />
-        </div> */}
-
-        {/* <div style={styles.formGroup}>
-          <label style={styles.label}>Category:</label>
-          <Input
-            value={fetchData.groupCategory}
-            style={styles.input}
-            disabled
-          />
-        </div> */}
-
-        {/* <div style={styles.formGroup}>
-          <label style={styles.label}>Group Name:</label>
-          <Input value={fetchData.groupName} style={styles.input} disabled />
-        </div> */}
 
         <div style={styles.formGroup}>
           <label
@@ -234,50 +203,94 @@ const Page = () => {
           {/* </AutoComplete> */}
         </div>
 
-        {children.map((child, index) => (
-          <div key={index} style={styles.childCard}>
-            <h3 style={styles.childTitle}>ପିଲା {index + 1}</h3>
-            <div style={{ marginBottom: 10 }}>
-              <label style={styles.label}>ପିଲାର ନାମ</label>
-              <Input
-                placeholder="ପିଲାର ନାମ ଲେଖନ୍ତୁ"
-                value={child.childName}
-                onChange={(e) =>
-                  handleChildChange(index, "childName", e.target.value)
-                }
-                style={styles.input}
-              />
-            </div>
-            <div>
-              <label style={styles.label}>ପିଲାର ଶ୍ରେଣୀ ଚୟନ କରନ୍ତୁ:</label>
-              <Select
-                placeholder="-- ପିଲାର ଶ୍ରେଣୀ ଚୟନ କରନ୍ତୁ --"
-                value={child.selectedClass}
-                style={styles.input}
-                onChange={(value) =>
-                  handleChildChange(index, "selectedClass", value)
-                }
-              >
-                {[
-                  { label: "ପ୍ରଥମ", value: 1 },
-                  { label: "ଦ୍ୱିତୀୟ", value: 2 },
-                  { label: "ତୃତୀୟ", value: 3 },
-                  { label: "ଚତୁର୍ଥ", value: 4 },
-                  { label: "ପଞ୍ଚମ", value: 5 },
-                  { label: "ଷଷ୍ଠ", value: 6 },
-                  { label: "ସପ୍ତମ", value: 7 },
-                  { label: "ଅଷ୍ଟମ", value: 8 },
-                  { label: "ନବମ", value: 9 },
-                  { label: "ଦଶମ", value: 10 },
-                ].map((item, i) => (
-                  <Option key={i + 1} value={item.value}>
-                    {item.label}
-                  </Option>
-                ))}
-              </Select>
-            </div>
+        {children.map((child, index) => {
+          const classNameOdiaArray = [
+            "୧",
+            "୨",
+            "୩",
+            "୪",
+            "୫",
+            "୬",
+            "୭",
+            "୮",
+            "୯",
+            "୧୦",
+          ];
 
-            {/* <div style={{ marginTop: 10 }}>
+          return (
+            <div key={index} style={styles.childCard}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <h3 style={styles.childTitle}>
+                  ପିଲା {classNameOdiaArray[index]}
+                </h3>
+                {index > 0 && (
+                  <button
+                    onClick={() => removeChild(index)}
+                    style={{
+                      backgroundColor: "#ff4d4f",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "10%",
+                      width: "20px",
+                      height: "20px",
+                      cursor: "pointer",
+                      fontSize: "10px",
+                      lineHeight: "10px",
+                      textAlign: "center",
+                      marginTop: "25.5px",
+                    }}
+                  >
+                    −
+                  </button>
+                )}
+              </div>
+
+              <div style={{ marginBottom: 10 }}>
+                <label style={styles.label}>ପିଲାର ନାମ</label>
+                <Input
+                  placeholder="ପିଲାର ନାମ ଲେଖନ୍ତୁ"
+                  value={child.childName}
+                  onChange={(e) =>
+                    handleChildChange(index, "childName", e.target.value)
+                  }
+                  style={styles.input}
+                />
+              </div>
+              <div>
+                <label style={styles.label}>ପିଲାର ଶ୍ରେଣୀ ଚୟନ କରନ୍ତୁ:</label>
+                <Select
+                  placeholder="-- ପିଲାର ଶ୍ରେଣୀ ଚୟନ କରନ୍ତୁ --"
+                  value={child.selectedClass}
+                  style={styles.input}
+                  onChange={(value) =>
+                    handleChildChange(index, "selectedClass", value)
+                  }
+                >
+                  {[
+                    { label: "ପ୍ରଥମ", value: 1 },
+                    { label: "ଦ୍ୱିତୀୟ", value: 2 },
+                    { label: "ତୃତୀୟ", value: 3 },
+                    { label: "ଚତୁର୍ଥ", value: 4 },
+                    { label: "ପଞ୍ଚମ", value: 5 },
+                    { label: "ଷଷ୍ଠ", value: 6 },
+                    { label: "ସପ୍ତମ", value: 7 },
+                    { label: "ଅଷ୍ଟମ", value: 8 },
+                    { label: "ନବମ", value: 9 },
+                    { label: "ଦଶମ", value: 10 },
+                  ].map((item, i) => (
+                    <Option key={i + 1} value={item.value}>
+                      {item.label}
+                    </Option>
+                  ))}
+                </Select>
+              </div>
+
+              {/* <div style={{ marginTop: 10 }}>
               <label style={styles.label}>Select Gender:</label>
               <Select
                 placeholder="-- Select Gender --"
@@ -289,8 +302,9 @@ const Page = () => {
                 <Option value="female">Girl</Option>
               </Select>
             </div> */}
-          </div>
-        ))}
+            </div>
+          );
+        })}
 
         <button onClick={addChild} style={styles.addButton}>
           <PlusOutlined /> ଆଉ ଏକ ପିଲାର ପଞ୍ଜୀକରଣ କରନ୍ତୁ
@@ -392,6 +406,7 @@ const styles = {
     fontSize: "21px",
     fontWeight: "600",
     color: "#333",
+    marginLeft: "44%",
   },
 };
 
