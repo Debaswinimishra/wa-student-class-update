@@ -123,8 +123,13 @@ const Page = () => {
         console.log("Saved Responses:", responses);
         window.location.href = "https://wa.me/";
       } catch (error) {
-        console.error("Save Error:", error);
-        alert("Something went wrong while saving.");
+        if (error.response.status === 406) {
+          console.error("Save Error:", error);
+          alert("କ୍ଷମା କରିବେ, ଆପଣ ପୂର୍ବରୁ ଏହି ତଥ୍ୟ ଦେଇ ସାରିଛନ୍ତି।");
+        } else {
+          console.error("Save Error:", error);
+          alert("Something went wrong while saving.");
+        }
       }
     }
   };
