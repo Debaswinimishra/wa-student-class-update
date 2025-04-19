@@ -30,7 +30,6 @@ const Page = () => {
   }));
 
   const participantOnChange = (value) => {
-    console.log("value---------->>", value);
     setSearchedParticipant(value);
   };
 
@@ -65,11 +64,6 @@ const Page = () => {
       { childName: "", selectedClass: "", gender: "" },
     ]);
   };
-
-  console.log(
-    "searchedParticipant.length < 12-------->",
-    searchedParticipant.length < 12
-  );
 
   const handleSave = async () => {
     if (!searchedParticipant || searchedParticipant.length < 12) {
@@ -140,6 +134,13 @@ const Page = () => {
   //   }
   // };
 
+  // useEffect(()=>{
+  //   if(searchedParticipant.length===12){
+
+  //   }
+
+  // },[])
+
   return (
     <div style={styles.wrapper}>
       <div style={styles.card}>
@@ -165,7 +166,17 @@ const Page = () => {
         </div> */}
 
         <div style={styles.formGroup}>
-          <label style={styles.label}>ନିଜ ନମ୍ବର ଚୟନ କରନ୍ତୁ :</label>
+          <label
+            style={{
+              marginBottom: "6px",
+              fontWeight: "500",
+              fontSize: "1.4rem",
+              color: "black",
+              // marginTop: "3px",
+            }}
+          >
+            ନିଜ ନମ୍ବର ଚୟନ କରନ୍ତୁ :
+          </label>
           {/* <AutoComplete
             options={autoCompleteOptions}
             placeholder="ନିଜ ନମ୍ବର ଚୟନ କରନ୍ତୁ..."
@@ -176,26 +187,56 @@ const Page = () => {
               option?.label?.toLowerCase().includes(inputValue.toLowerCase())
             }
           > */}
-          <Input
-            addonBefore="+91"
-            value={
-              searchedParticipant.startsWith("91")
-                ? searchedParticipant.slice(2)
-                : searchedParticipant
-            }
-            onChange={(e) => {
-              const input = e.target.value.replace(/\D/g, "").slice(0, 10);
-              participantOnChange("91" + input);
-            }}
-            maxLength={10}
-            placeholder="ନିଜ ନମ୍ବର ଚୟନ କରନ୍ତୁ..."
-          />
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                width: "100%",
+              }}
+            >
+              <span
+                style={{
+                  padding: "13px",
+                  borderRadius: "8px",
+                  backgroundColor: "white",
+                  border: "2px solid black",
+                }}
+              >
+                +91
+              </span>
+              <input
+                type="tel"
+                value={
+                  searchedParticipant.startsWith("91")
+                    ? searchedParticipant.slice(2)
+                    : searchedParticipant
+                }
+                onChange={(e) => {
+                  const input = e.target.value.replace(/\D/g, "").slice(0, 10);
+                  participantOnChange("91" + input);
+                }}
+                maxLength={10}
+                placeholder="ନିଜ ନମ୍ବର ଲେଖନ୍ତୁ..."
+                style={{
+                  padding: "15px",
+                  borderRadius: "8px",
+                  border: "1px solid black",
+                  width: "100%",
+                  fontSize: "1rem",
+                  letterSpacing: "3px",
+                }}
+              />
+            </div>
+          </div>
+
           {/* </AutoComplete> */}
         </div>
 
         {children.map((child, index) => (
           <div key={index} style={styles.childCard}>
-            <h3 style={styles.childTitle}>Child {index + 1}</h3>
+            <h3 style={styles.childTitle}>ପିଲା {index + 1}</h3>
             <div style={{ marginBottom: 10 }}>
               <label style={styles.label}>ପିଲାର ନାମ</label>
               <Input
@@ -267,9 +308,10 @@ const styles = {
   wrapper: {
     display: "flex",
     justifyContent: "center",
+    alignItems: "center", // optional: center vertically too
     padding: "20px",
-    minHeight: "90vh",
-    backgroundColor: "rgb(152,251,152)",
+    minHeight: "100vh", // makes it responsive to full device height
+    backgroundColor: "#25D366", // WhatsApp green
   },
   card: {
     width: "100%",
@@ -278,12 +320,16 @@ const styles = {
     borderRadius: "10px",
     boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
     backgroundImage: `url(${backgroundImg})`,
+    backgroundSize: "cover", // optional: ensures image scales nicely
+    backgroundPosition: "center",
   },
+
   title: {
     textAlign: "center",
-    marginBottom: "24px",
-    fontSize: "22px",
+    marginBottom: "22px",
+    fontSize: "50px",
     color: "#333",
+    marginTop: "-3%",
   },
   formGroup: {
     display: "flex",
@@ -292,22 +338,27 @@ const styles = {
   label: {
     marginBottom: "6px",
     fontWeight: "500",
-    fontSize: "14px",
-    color: "#555",
+    fontSize: "25px",
+    color: "black",
+    marginTop: "10px",
   },
   input: {
     width: "100%",
-    height: "40px",
-    fontSize: "14px",
+    height: "50px",
+    fontSize: "15px",
     border: "solid black 1px",
+    marginTop: "15px",
+    marginBottom: "15px",
+    borderRadius: "8px",
+    letterSpacing: "2px",
   },
   button: {
     width: "100%",
-    padding: "10px",
+    padding: "12px",
     marginTop: "16px",
     backgroundColor: "rgb(60,179,113)",
     color: "white",
-    fontSize: "16px",
+    fontSize: "18px",
     fontWeight: "bold",
     border: "none",
     borderRadius: "10px",
@@ -315,11 +366,11 @@ const styles = {
   },
   addButton: {
     width: "100%",
-    padding: "8px",
+    padding: "12px",
     marginBottom: "16px",
     backgroundColor: "#1890ff",
     color: "white",
-    fontSize: "14px",
+    fontSize: "18px",
     border: "none",
     borderRadius: "8px",
     cursor: "pointer",
@@ -334,11 +385,11 @@ const styles = {
     marginBottom: "20px",
     boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
     border: "1px solid #ccc",
-    marginTop: "12px",
+    marginTop: "20px",
   },
   childTitle: {
     marginBottom: "12px",
-    fontSize: "16px",
+    fontSize: "21px",
     fontWeight: "600",
     color: "#333",
   },
